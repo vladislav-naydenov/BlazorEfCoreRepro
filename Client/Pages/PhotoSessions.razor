@@ -1,0 +1,43 @@
+﻿@page "/photosessions"
+@using BlazorEfCoreRepro.Shared.Models.PhotoSession
+
+@inject HttpClient Http
+
+<h1>Photo sessions</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (photoSessions == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Frames</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var photoSession in photoSessions)
+        {
+            <tr>
+                <td>@photoSession.Frames</td>
+                <td>@photoSession.Price</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<PhotoSessionResponseModel> photoSessions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        photoSessions = await Http.GetFromJsonAsync<IEnumerable<PhotoSessionResponseModel>>("PhotoSession");
+    }
+
+}
