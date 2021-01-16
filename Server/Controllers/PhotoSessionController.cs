@@ -23,6 +23,7 @@ namespace BlazorEfCoreRepro.Server.Controllers
         public async Task<IEnumerable<PhotoSessionResponseModel>> Get()
         {
             var photoSessions = await this.dbContext.PhotoSessions
+                                          .Include(p => p.PhotoSessionDetails)
                                           .Select(p => new PhotoSessionResponseModel
                                           {
                                               Id = p.Id,
